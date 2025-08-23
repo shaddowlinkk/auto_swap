@@ -16,3 +16,4 @@ Example config json
   }
 }
 ```
+To stop in terminal type ctxstop
