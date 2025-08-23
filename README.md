@@ -1,6 +1,6 @@
 This a a windoes only program to detect a new version of a plugin then stop the server and gupdate the plugin for the new version then restart the server.
 Example config json
-
+```
 {
   "watch": "test.txt", <- file that you are looking for
   "dest": "help.txt", <- where you want to move the file
@@ -15,3 +15,4 @@ Example config json
     "args": []
   }
 }
+```
