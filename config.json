@@ -1,0 +1,14 @@
+{
+  "watch": "test.txt",
+  "dest": "help.txt",
+  "start_server": {
+    "type": "CMD",
+    "command": "run.bat",
+    "args": []
+  },
+  "stop_server": {
+    "type": "STDIN",
+    "command": "stop",
+    "args": []
+  }
+}
