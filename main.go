@@ -53,7 +53,7 @@ func main() {
 					fmt.Println("Error reading input:", err)
 					return
 				}
-				if strings.Contains(inputStr, "ctxstop") || strings.Contains(inputStr, "stop") {
+				if strings.Contains(inputStr, "ctxstop") {
 					err = RunCommand(config.StopServer.Type, config.StopServer.Command, config.StopServer.Args, &term)
 					if err != nil {
 						return
@@ -74,10 +74,32 @@ func main() {
 						}
 					}
 					main_can()
-				}
-				err = RunCommand("STDIN", inputStr, nil, &term)
-				if err != nil {
-					return
+				} else if strings.Contains(inputStr, "ctxrestart") {
+					err = RunCommand(config.StopServer.Type, config.StopServer.Command, config.StopServer.Args, &term)
+					if err != nil {
+						return
+					}
+					done := false
+					for !done {
+						select {
+						case <-term.Ctx.Done():
+							ctx, can := context.WithCancel(context.Background())
+							term = Term{Ctx: ctx, Cancel: can}
+							errs := RunCommand(config.StartServer.Type, config.StartServer.Command, config.StartServer.Args, &term)
+							if errs != nil {
+								can()
+								return
+							}
+							done = true
+							break
+						}
+					}
+
+				} else {
+					err = RunCommand("STDIN", inputStr, nil, &term)
+					if err != nil {
+						return
+					}
 				}
 			}
 
