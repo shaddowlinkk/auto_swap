@@ -53,7 +53,7 @@ func main() {
 					fmt.Println("Error reading input:", err)
 					return
 				}
-				if strings.Contains(inputStr, "ctxstop") {
+				if strings.Contains(inputStr, "ctxstop") || strings.Contains(inputStr, "stop") {
 					err = RunCommand(config.StopServer.Type, config.StopServer.Command, config.StopServer.Args, &term)
 					if err != nil {
 						return
